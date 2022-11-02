@@ -12,8 +12,8 @@ const Login = () => {
     const form = useRef();
     const checkBtn = useRef();
 
-    const [username, setUsername] = useState('user'); //todo remove
-    const [password, setPassword] = useState('password'); //todo remove
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
 

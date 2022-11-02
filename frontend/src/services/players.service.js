@@ -1,15 +1,13 @@
-import axios from 'axios';
 import authHeader from './auth-header';
-
-const API_URL = 'http://localhost:8080/api/';
+import http from '../http-common';
 
 
 const getPlayers = () => {
-    return axios.get(API_URL + 'players', { headers: authHeader() });
+    return http.get('/players', { headers: authHeader() });
 };
 
 const getDuels = (playerId) => {
-    return axios.get(API_URL + 'duels', { headers: authHeader(), params: { playerId } });
+    return http.get('/duels', { headers: authHeader(), params: { playerId } });
 };
 
 const UserService = {

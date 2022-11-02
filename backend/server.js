@@ -4,9 +4,11 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const db = require('./src/models');
 var bcrypt = require('bcryptjs');
+require("dotenv").config();
+
 
 const corsOptions = {
-    origin: `http://localhost:8081`,
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:8081"
 };
 const app = express();
 app.use(cors(corsOptions));
@@ -17,7 +19,7 @@ require('./src/routes/player.routes')(app);
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, { cors: corsOptions });
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.NODE_DOCKER_PORT || 8080;
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
 const Player = db.player;
@@ -40,11 +42,11 @@ const initialize = () => {
         isFinished: true,
     })
 }
-db.sequelize.sync({ force: true }).then(() => {
-    initialize();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     initialize();
+// });
 
-// TODO: PROD: db.sequelize.sync();
+db.sequelize.sync();
 
 
 // sockets stuff
@@ -53,7 +55,6 @@ let awaitingPlayerId;
 
 const joinGame = socket => {
     const playerId = socket.handshake.query.player;
-    console.log('player', playerId, socket.id)
     const playerAlreadyWaiting = awaitingPlayerId && players[awaitingPlayerId].playerId === playerId;
     if (playerAlreadyWaiting) {
         delete players[awaitingPlayerId];
@@ -98,6 +99,7 @@ const getOpponent = (socket) => {
 }
 
 io.on('connection', async (socket) => {
+    console.log('connection')
     joinGame(socket);
     const opponent = getOpponent(socket);
 

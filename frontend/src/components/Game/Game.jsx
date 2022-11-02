@@ -18,7 +18,6 @@ export default class Game extends React.Component {
     componentDidMount() {
         const socket = SocketService.connect();
         socket.on('game.begin', ({ symbol }) => {
-            console.log('begin');
             this.setState({
                 symbol,
                 isPlayerTurn: symbol === 'X'

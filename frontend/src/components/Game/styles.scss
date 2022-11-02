@@ -1,0 +1,27 @@
+ol,
+ul {
+    padding-left: 30px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.status {
+    margin-bottom: 10px;
+}
+
+.game-info {
+    margin-left: 20px;
+}
+
+.game-board {
+    margin-top: 2em;
+}
+
+.winner {
+    color: red;
+}

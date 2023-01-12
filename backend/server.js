@@ -8,7 +8,7 @@ require("dotenv").config();
 
 
 const corsOptions = {
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:8081"
+    origin: '*' //process.env.CLIENT_ORIGIN || "http://localhost:8081"
 };
 const app = express();
 app.use(cors(corsOptions));
@@ -19,7 +19,7 @@ require('./src/routes/player.routes')(app);
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, { cors: corsOptions });
-const PORT = process.env.NODE_DOCKER_PORT || 8080;
+const PORT = process.env.API_PORT || 8080;
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 
 const Player = db.player;

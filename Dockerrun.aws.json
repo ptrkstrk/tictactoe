@@ -1,0 +1,45 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "tictactoe-backend",
+            "image": "617152819485.dkr.ecr.us-east-1.amazonaws.com/tictactoe-backend:latest",
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 8080,
+                    "containerPort": 8080
+                }
+            ]
+        },
+        {
+            "name": "tictactoe-ui",
+            "image": "617152819485.dkr.ecr.us-east-1.amazonaws.com/tictactoe-ui:latest",
+            "memory": 512,
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 3000,
+                    "containerPort": 3000
+                }
+            ]
+        },
+        {
+            "name": "tictactoe-router",
+            "image": "617152819485.dkr.ecr.us-east-1.amazonaws.com/tictactoe-ui:latest",
+            "memory": 128,
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": [
+                "tictactoe-ui",
+                "tictactoe-backend"
+            ]
+        }
+    ]
+}

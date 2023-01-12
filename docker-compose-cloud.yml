@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  tictactoe-backend:
+    build: ./backend
+    image: 617152819485.dkr.ecr.us-east-1.amazonaws.com/tictactoe-backend:latest
+    restart: unless-stopped
+    ports:
+      - $API_PORT:$API_PORT
+
+  tictactoe-ui:
+    depends_on:
+      - tictactoe-backend
+    build:
+      context: ./frontend
+      args:
+        - REACT_APP_API_BASE_URL=http://tictactoe-env-3.eba-if7pe5ei.us-east-1.elasticbeanstalk.com
+    image: 617152819485.dkr.ecr.us-east-1.amazonaws.com/tictactoe-ui:latest
+    ports:
+      - 3000:3000
+
+  tictactoe-router: 
+    container_name: tictactoe-router
+    depends_on: 
+      - tictactoe-ui
+      - tictactoe-backend
+    ports: 
+      - 80:80
+    build:
+      context: ./router
+    image: 617152819485.dkr.ecr.us-east-1.amazonaws.com/tictactoe-router:latest

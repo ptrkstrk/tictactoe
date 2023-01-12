@@ -1,6 +1,6 @@
 FROM node:16 as build-stage
 
-WORKDIR /tictactoe-frontend
+WORKDIR /tictactoe-ui
 COPY package.json .
 RUN npm install
 COPY . .
@@ -10,12 +10,12 @@ ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
 
 RUN npm run build
 
-FROM nginx:1.17.0-alpine
+FROM nginx
 
-COPY --from=build-stage /tictactoe-frontend/build /usr/share/nginx/html
+COPY --from=build-stage /tictactoe-ui/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 
-EXPOSE $REACT_DOCKER_PORT
+EXPOSE 3000
 
 CMD nginx -g 'daemon off;'
